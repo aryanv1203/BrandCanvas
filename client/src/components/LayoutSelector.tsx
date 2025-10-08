@@ -53,23 +53,215 @@ export default function LayoutSelector({
 }
 
 function LayoutPreview({ layout, count }: { layout: string; count: number }) {
-  // Simple grid representation for preview
-  const gridConfigs: Record<string, string> = {
-    "grid-2x2": "grid-cols-2 grid-rows-2",
-    "grid-3x3": "grid-cols-3 grid-rows-3",
-    "grid-2x3": "grid-cols-2 grid-rows-3",
-    "grid-3x2": "grid-cols-3 grid-rows-2",
-    "grid-2x4": "grid-cols-2 grid-rows-4",
-    "grid-4x2": "grid-cols-4 grid-rows-2",
-  };
-
-  const gridClass = gridConfigs[layout] || "grid-cols-2 grid-rows-2";
-
-  return (
-    <div className={`grid ${gridClass} gap-0.5 w-full h-full`}>
-      {Array.from({ length: count }).map((_, i) => (
-        <div key={i} className="bg-primary/20 rounded-sm" />
-      ))}
-    </div>
+  const Cell = ({ className = "" }: { className?: string }) => (
+    <div className={`bg-primary/20 rounded-sm ${className}`} />
   );
+
+  switch (layout) {
+    // 2 images
+    case "side-by-side":
+      return (
+        <div className="grid grid-cols-2 gap-0.5 w-full h-full">
+          <Cell /><Cell />
+        </div>
+      );
+    
+    case "stacked":
+      return (
+        <div className="grid grid-rows-2 gap-0.5 w-full h-full">
+          <Cell /><Cell />
+        </div>
+      );
+    
+    case "diagonal":
+      return (
+        <div className="relative w-full h-full">
+          <Cell className="absolute top-0 left-0 right-1/2 bottom-1/2" />
+          <Cell className="absolute bottom-0 right-0 left-1/2 top-1/2" />
+        </div>
+      );
+    
+    case "overlap":
+      return (
+        <div className="relative w-full h-full">
+          <Cell className="absolute top-0 left-0 right-3 bottom-3" />
+          <Cell className="absolute top-3 right-0 left-3 bottom-0" />
+        </div>
+      );
+    
+    case "polaroid":
+      return (
+        <div className="grid grid-cols-2 gap-1 w-full h-full p-1">
+          <div className="bg-white p-0.5 pb-2 rounded-sm"><Cell className="w-full h-full" /></div>
+          <div className="bg-white p-0.5 pb-2 rounded-sm"><Cell className="w-full h-full" /></div>
+        </div>
+      );
+
+    // 3 images
+    case "triangle":
+      return (
+        <div className="relative w-full h-full">
+          <Cell className="absolute top-0 left-1/4 right-1/4 h-1/2" />
+          <Cell className="absolute bottom-0 left-0 w-[48%] h-[45%]" />
+          <Cell className="absolute bottom-0 right-0 w-[48%] h-[45%]" />
+        </div>
+      );
+
+    case "L-shape":
+      return (
+        <div className="grid grid-cols-2 grid-rows-2 gap-0.5 w-full h-full">
+          <Cell className="col-span-2" />
+          <Cell /><Cell />
+        </div>
+      );
+
+    case "horizontal":
+      return (
+        <div className="grid grid-cols-3 gap-0.5 w-full h-full">
+          <Cell /><Cell /><Cell />
+        </div>
+      );
+
+    case "vertical":
+      return (
+        <div className="grid grid-rows-3 gap-0.5 w-full h-full">
+          <Cell /><Cell /><Cell />
+        </div>
+      );
+
+    // 4 images
+    case "grid-2x2":
+      return (
+        <div className="grid grid-cols-2 grid-rows-2 gap-0.5 w-full h-full">
+          <Cell /><Cell /><Cell /><Cell />
+        </div>
+      );
+
+    case "asymmetric":
+      return (
+        <div className="grid grid-cols-3 grid-rows-3 gap-0.5 w-full h-full">
+          <Cell className="col-span-2 row-span-2" />
+          <Cell className="row-span-2" />
+          <Cell />
+          <Cell className="col-span-2" />
+        </div>
+      );
+
+    case "magazine":
+      return (
+        <div className="grid grid-cols-2 grid-rows-3 gap-0.5 w-full h-full">
+          <Cell className="row-span-2" />
+          <Cell /><Cell />
+          <Cell className="col-span-2" />
+        </div>
+      );
+
+    case "creative":
+      return (
+        <div className="grid grid-cols-4 grid-rows-4 gap-0.5 w-full h-full">
+          <Cell className="col-span-2 row-span-2" />
+          <Cell className="col-span-2" />
+          <Cell className="col-span-2" />
+          <Cell className="col-span-2 row-span-2" />
+        </div>
+      );
+
+    case "polaroid-grid":
+      return (
+        <div className="grid grid-cols-2 gap-1 w-full h-full p-0.5">
+          {[...Array(4)].map((_, i) => (
+            <div key={i} className="bg-white p-0.5 pb-1.5 rounded-sm">
+              <Cell className="w-full h-full" />
+            </div>
+          ))}
+        </div>
+      );
+
+    // 5+ images
+    case "cross":
+      return (
+        <div className="grid grid-cols-3 grid-rows-3 gap-0.5 w-full h-full">
+          <div /><Cell /><div />
+          <Cell /><Cell /><Cell />
+          <div /><Cell /><div />
+        </div>
+      );
+
+    case "grid-2x3":
+      return (
+        <div className="grid grid-cols-2 grid-rows-3 gap-0.5 w-full h-full">
+          {[...Array(6)].map((_, i) => <Cell key={i} />)}
+        </div>
+      );
+
+    case "grid-3x2":
+      return (
+        <div className="grid grid-cols-3 grid-rows-2 gap-0.5 w-full h-full">
+          {[...Array(6)].map((_, i) => <Cell key={i} />)}
+        </div>
+      );
+
+    case "grid-3x3":
+      return (
+        <div className="grid grid-cols-3 grid-rows-3 gap-0.5 w-full h-full">
+          {[...Array(9)].map((_, i) => <Cell key={i} />)}
+        </div>
+      );
+
+    case "grid-2x4":
+      return (
+        <div className="grid grid-cols-2 grid-rows-4 gap-0.5 w-full h-full">
+          {[...Array(8)].map((_, i) => <Cell key={i} />)}
+        </div>
+      );
+
+    case "grid-4x2":
+      return (
+        <div className="grid grid-cols-4 grid-rows-2 gap-0.5 w-full h-full">
+          {[...Array(8)].map((_, i) => <Cell key={i} />)}
+        </div>
+      );
+
+    case "hexagon":
+    case "honeycomb":
+      return (
+        <div className="grid grid-cols-3 gap-0.5 w-full h-full">
+          <div className="flex justify-center"><Cell className="w-2/3 h-full" /></div>
+          <Cell />
+          <div className="flex justify-center"><Cell className="w-2/3 h-full" /></div>
+          <Cell /><Cell /><Cell />
+          <div className="flex justify-center"><Cell className="w-2/3 h-full" /></div>
+          <Cell />
+          <div className="flex justify-center"><Cell className="w-2/3 h-full" /></div>
+        </div>
+      );
+
+    case "circle":
+      return (
+        <div className="relative w-full h-full rounded-full overflow-hidden">
+          <div className="grid grid-cols-3 grid-rows-3 gap-0.5 w-full h-full p-2">
+            {[...Array(Math.min(count, 9))].map((_, i) => <Cell key={i} />)}
+          </div>
+        </div>
+      );
+
+    case "octagon":
+    case "mosaic":
+      return (
+        <div className="grid grid-cols-3 grid-rows-3 gap-0.5 w-full h-full">
+          {[...Array(Math.min(count, 9))].map((_, i) => <Cell key={i} />)}
+        </div>
+      );
+
+    // Default grid
+    default:
+      const cols = Math.ceil(Math.sqrt(count));
+      return (
+        <div className={`grid grid-cols-${cols} gap-0.5 w-full h-full`} style={{ 
+          gridTemplateColumns: `repeat(${cols}, 1fr)`
+        }}>
+          {[...Array(count)].map((_, i) => <Cell key={i} />)}
+        </div>
+      );
+  }
 }

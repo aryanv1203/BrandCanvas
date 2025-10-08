@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 import { Card } from "@/components/ui/card";
-import { ChevronLeft, ChevronRight, ZoomIn, ZoomOut } from "lucide-react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import type { TextOverlay } from "@shared/schema";
 
@@ -29,22 +29,292 @@ export default function CollagePreview({
 
   useEffect(() => {
     if (!canvasRef.current) return;
-    // In a real implementation, this would render the actual collage
-    // For now, we'll show a placeholder grid
   }, [images, layout, textOverlay]);
 
-  const gridConfigs: Record<string, string> = {
-    "side-by-side": "grid-cols-2",
-    "stacked": "grid-rows-2",
-    "grid-2x2": "grid-cols-2 grid-rows-2",
-    "grid-3x3": "grid-cols-3 grid-rows-3",
-    "grid-2x3": "grid-cols-2 grid-rows-3",
-    "grid-3x2": "grid-cols-3 grid-rows-2",
-    "triangle": "grid-cols-2",
-    "L-shape": "grid-cols-2 grid-rows-2",
-  };
+  const renderLayout = () => {
+    const imageCount = images.length;
 
-  const gridClass = gridConfigs[layout] || "grid-cols-2";
+    // Layout rendering based on name and image count
+    switch (layout) {
+      // 2 images
+      case "side-by-side":
+        return (
+          <div className="grid grid-cols-2 gap-2 h-full w-full p-2">
+            {images.map((img, idx) => (
+              <div key={idx} className="relative bg-muted rounded-sm overflow-hidden">
+                <img src={img.url} alt={img.label} className="w-full h-full object-cover" />
+              </div>
+            ))}
+          </div>
+        );
+
+      case "stacked":
+        return (
+          <div className="grid grid-rows-2 gap-2 h-full w-full p-2">
+            {images.map((img, idx) => (
+              <div key={idx} className="relative bg-muted rounded-sm overflow-hidden">
+                <img src={img.url} alt={img.label} className="w-full h-full object-cover" />
+              </div>
+            ))}
+          </div>
+        );
+
+      case "diagonal":
+        return (
+          <div className="relative h-full w-full p-2">
+            <div className="absolute top-2 left-2 right-1/2 bottom-1/2 rounded-sm overflow-hidden">
+              <img src={images[0]?.url} alt={images[0]?.label} className="w-full h-full object-cover" />
+            </div>
+            <div className="absolute bottom-2 right-2 left-1/2 top-1/2 rounded-sm overflow-hidden">
+              <img src={images[1]?.url} alt={images[1]?.label} className="w-full h-full object-cover" />
+            </div>
+          </div>
+        );
+
+      case "overlap":
+        return (
+          <div className="relative h-full w-full p-4">
+            <div className="absolute top-4 left-4 right-12 bottom-12 rounded-sm overflow-hidden shadow-lg z-10">
+              <img src={images[0]?.url} alt={images[0]?.label} className="w-full h-full object-cover" />
+            </div>
+            <div className="absolute top-12 right-4 left-12 bottom-4 rounded-sm overflow-hidden shadow-lg">
+              <img src={images[1]?.url} alt={images[1]?.label} className="w-full h-full object-cover" />
+            </div>
+          </div>
+        );
+
+      case "polaroid":
+        return (
+          <div className="grid grid-cols-2 gap-4 h-full w-full p-4">
+            {images.map((img, idx) => (
+              <div key={idx} className="relative bg-white p-2 pb-8 rounded-sm shadow-lg">
+                <img src={img.url} alt={img.label} className="w-full aspect-square object-cover" />
+              </div>
+            ))}
+          </div>
+        );
+
+      // 3 images
+      case "triangle":
+        return (
+          <div className="relative h-full w-full p-2">
+            <div className="absolute top-2 left-1/4 right-1/4 h-1/2 rounded-sm overflow-hidden">
+              <img src={images[0]?.url} alt={images[0]?.label} className="w-full h-full object-cover" />
+            </div>
+            <div className="absolute bottom-2 left-2 w-[45%] h-[45%] rounded-sm overflow-hidden">
+              <img src={images[1]?.url} alt={images[1]?.label} className="w-full h-full object-cover" />
+            </div>
+            <div className="absolute bottom-2 right-2 w-[45%] h-[45%] rounded-sm overflow-hidden">
+              <img src={images[2]?.url} alt={images[2]?.label} className="w-full h-full object-cover" />
+            </div>
+          </div>
+        );
+
+      case "L-shape":
+        return (
+          <div className="grid grid-cols-2 grid-rows-2 gap-2 h-full w-full p-2">
+            <div className="col-span-2 rounded-sm overflow-hidden">
+              <img src={images[0]?.url} alt={images[0]?.label} className="w-full h-full object-cover" />
+            </div>
+            <div className="rounded-sm overflow-hidden">
+              <img src={images[1]?.url} alt={images[1]?.label} className="w-full h-full object-cover" />
+            </div>
+            <div className="rounded-sm overflow-hidden">
+              <img src={images[2]?.url} alt={images[2]?.label} className="w-full h-full object-cover" />
+            </div>
+          </div>
+        );
+
+      case "horizontal":
+        return (
+          <div className="grid grid-cols-3 gap-2 h-full w-full p-2">
+            {images.map((img, idx) => (
+              <div key={idx} className="relative bg-muted rounded-sm overflow-hidden">
+                <img src={img.url} alt={img.label} className="w-full h-full object-cover" />
+              </div>
+            ))}
+          </div>
+        );
+
+      case "vertical":
+        return (
+          <div className="grid grid-rows-3 gap-2 h-full w-full p-2">
+            {images.map((img, idx) => (
+              <div key={idx} className="relative bg-muted rounded-sm overflow-hidden">
+                <img src={img.url} alt={img.label} className="w-full h-full object-cover" />
+              </div>
+            ))}
+          </div>
+        );
+
+      // 4 images
+      case "grid-2x2":
+        return (
+          <div className="grid grid-cols-2 grid-rows-2 gap-2 h-full w-full p-2">
+            {images.map((img, idx) => (
+              <div key={idx} className="relative bg-muted rounded-sm overflow-hidden">
+                <img src={img.url} alt={img.label} className="w-full h-full object-cover" />
+              </div>
+            ))}
+          </div>
+        );
+
+      case "asymmetric":
+        return (
+          <div className="grid grid-cols-3 grid-rows-3 gap-2 h-full w-full p-2">
+            <div className="col-span-2 row-span-2 rounded-sm overflow-hidden">
+              <img src={images[0]?.url} alt={images[0]?.label} className="w-full h-full object-cover" />
+            </div>
+            <div className="row-span-2 rounded-sm overflow-hidden">
+              <img src={images[1]?.url} alt={images[1]?.label} className="w-full h-full object-cover" />
+            </div>
+            <div className="rounded-sm overflow-hidden">
+              <img src={images[2]?.url} alt={images[2]?.label} className="w-full h-full object-cover" />
+            </div>
+            <div className="col-span-2 rounded-sm overflow-hidden">
+              <img src={images[3]?.url} alt={images[3]?.label} className="w-full h-full object-cover" />
+            </div>
+          </div>
+        );
+
+      case "magazine":
+        return (
+          <div className="grid grid-cols-2 grid-rows-3 gap-2 h-full w-full p-2">
+            <div className="row-span-2 rounded-sm overflow-hidden">
+              <img src={images[0]?.url} alt={images[0]?.label} className="w-full h-full object-cover" />
+            </div>
+            <div className="rounded-sm overflow-hidden">
+              <img src={images[1]?.url} alt={images[1]?.label} className="w-full h-full object-cover" />
+            </div>
+            <div className="rounded-sm overflow-hidden">
+              <img src={images[2]?.url} alt={images[2]?.label} className="w-full h-full object-cover" />
+            </div>
+            <div className="col-span-2 rounded-sm overflow-hidden">
+              <img src={images[3]?.url} alt={images[3]?.label} className="w-full h-full object-cover" />
+            </div>
+          </div>
+        );
+
+      case "creative":
+        return (
+          <div className="grid grid-cols-4 grid-rows-4 gap-2 h-full w-full p-2">
+            <div className="col-span-2 row-span-2 rounded-sm overflow-hidden">
+              <img src={images[0]?.url} alt={images[0]?.label} className="w-full h-full object-cover" />
+            </div>
+            <div className="col-span-2 rounded-sm overflow-hidden">
+              <img src={images[1]?.url} alt={images[1]?.label} className="w-full h-full object-cover" />
+            </div>
+            <div className="col-span-2 rounded-sm overflow-hidden">
+              <img src={images[2]?.url} alt={images[2]?.label} className="w-full h-full object-cover" />
+            </div>
+            <div className="col-span-2 row-span-2 rounded-sm overflow-hidden">
+              <img src={images[3]?.url} alt={images[3]?.label} className="w-full h-full object-cover" />
+            </div>
+          </div>
+        );
+
+      case "polaroid-grid":
+        return (
+          <div className="grid grid-cols-2 gap-3 h-full w-full p-3">
+            {images.map((img, idx) => (
+              <div key={idx} className="relative bg-white p-2 pb-6 rounded-sm shadow-md">
+                <img src={img.url} alt={img.label} className="w-full aspect-square object-cover" />
+              </div>
+            ))}
+          </div>
+        );
+
+      // 5+ images - grids and special layouts
+      case "grid-2x3":
+        return (
+          <div className="grid grid-cols-2 grid-rows-3 gap-2 h-full w-full p-2">
+            {images.map((img, idx) => (
+              <div key={idx} className="relative bg-muted rounded-sm overflow-hidden">
+                <img src={img.url} alt={img.label} className="w-full h-full object-cover" />
+              </div>
+            ))}
+          </div>
+        );
+
+      case "grid-3x2":
+        return (
+          <div className="grid grid-cols-3 grid-rows-2 gap-2 h-full w-full p-2">
+            {images.map((img, idx) => (
+              <div key={idx} className="relative bg-muted rounded-sm overflow-hidden">
+                <img src={img.url} alt={img.label} className="w-full h-full object-cover" />
+              </div>
+            ))}
+          </div>
+        );
+
+      case "grid-3x3":
+        return (
+          <div className="grid grid-cols-3 grid-rows-3 gap-2 h-full w-full p-2">
+            {images.map((img, idx) => (
+              <div key={idx} className="relative bg-muted rounded-sm overflow-hidden">
+                <img src={img.url} alt={img.label} className="w-full h-full object-cover" />
+              </div>
+            ))}
+          </div>
+        );
+
+      case "grid-2x4":
+        return (
+          <div className="grid grid-cols-2 grid-rows-4 gap-2 h-full w-full p-2">
+            {images.map((img, idx) => (
+              <div key={idx} className="relative bg-muted rounded-sm overflow-hidden">
+                <img src={img.url} alt={img.label} className="w-full h-full object-cover" />
+              </div>
+            ))}
+          </div>
+        );
+
+      case "grid-4x2":
+        return (
+          <div className="grid grid-cols-4 grid-rows-2 gap-2 h-full w-full p-2">
+            {images.map((img, idx) => (
+              <div key={idx} className="relative bg-muted rounded-sm overflow-hidden">
+                <img src={img.url} alt={img.label} className="w-full h-full object-cover" />
+              </div>
+            ))}
+          </div>
+        );
+
+      case "cross":
+      case "circle":
+      case "hexagon":
+      case "honeycomb":
+      case "octagon":
+      case "mosaic":
+        // For complex shapes, use a creative grid approach
+        return (
+          <div className="grid grid-cols-3 grid-rows-3 gap-2 h-full w-full p-2">
+            {images.slice(0, 9).map((img, idx) => (
+              <div key={idx} className="relative bg-muted rounded-sm overflow-hidden">
+                <img src={img.url} alt={img.label} className="w-full h-full object-cover" />
+              </div>
+            ))}
+          </div>
+        );
+
+      // Default grid layout
+      default:
+        const cols = Math.ceil(Math.sqrt(imageCount));
+        const rows = Math.ceil(imageCount / cols);
+        return (
+          <div className={`grid grid-cols-${cols} gap-2 h-full w-full p-2`} style={{ 
+            gridTemplateColumns: `repeat(${cols}, 1fr)`,
+            gridTemplateRows: `repeat(${rows}, 1fr)`
+          }}>
+            {images.map((img, idx) => (
+              <div key={idx} className="relative bg-muted rounded-sm overflow-hidden">
+                <img src={img.url} alt={img.label} className="w-full h-full object-cover" />
+              </div>
+            ))}
+          </div>
+        );
+    }
+  };
 
   return (
     <div className="space-y-4">
@@ -54,17 +324,7 @@ export default function CollagePreview({
           className="aspect-square relative"
           data-testid="canvas-collage-preview"
         >
-          <div className={`grid ${gridClass} gap-1 h-full w-full p-1`}>
-            {images.map((image, idx) => (
-              <div key={idx} className="relative bg-muted rounded-sm overflow-hidden">
-                <img
-                  src={image.url}
-                  alt={`Image ${image.label}`}
-                  className="w-full h-full object-cover"
-                />
-              </div>
-            ))}
-          </div>
+          {renderLayout()}
 
           {textOverlay?.text && (
             <div
