@@ -160,58 +160,385 @@ export default function CollagePreview({
         );
 
       case "asymmetric":
-        return (
-          <div className="grid grid-cols-3 grid-rows-3 gap-2 h-full w-full p-2">
-            <div className="col-span-2 row-span-2 rounded-sm overflow-hidden">
-              <img src={images[0]?.url} alt={images[0]?.label} className="w-full h-full object-cover" />
+        if (imageCount === 4) {
+          return (
+            <div className="grid grid-cols-3 grid-rows-3 gap-2 h-full w-full p-2">
+              <div className="col-span-2 row-span-2 rounded-sm overflow-hidden">
+                <img src={images[0]?.url} alt={images[0]?.label} className="w-full h-full object-cover" />
+              </div>
+              <div className="row-span-2 rounded-sm overflow-hidden">
+                <img src={images[1]?.url} alt={images[1]?.label} className="w-full h-full object-cover" />
+              </div>
+              <div className="rounded-sm overflow-hidden">
+                <img src={images[2]?.url} alt={images[2]?.label} className="w-full h-full object-cover" />
+              </div>
+              <div className="col-span-2 rounded-sm overflow-hidden">
+                <img src={images[3]?.url} alt={images[3]?.label} className="w-full h-full object-cover" />
+              </div>
             </div>
-            <div className="row-span-2 rounded-sm overflow-hidden">
-              <img src={images[1]?.url} alt={images[1]?.label} className="w-full h-full object-cover" />
+          );
+        } else if (imageCount === 5) {
+          return (
+            <div className="grid grid-cols-4 grid-rows-4 gap-2 h-full w-full p-2">
+              <div className="col-span-3 row-span-2 rounded-sm overflow-hidden">
+                <img src={images[0]?.url} alt={images[0]?.label} className="w-full h-full object-cover" />
+              </div>
+              <div className="row-span-2 rounded-sm overflow-hidden">
+                <img src={images[1]?.url} alt={images[1]?.label} className="w-full h-full object-cover" />
+              </div>
+              <div className="col-span-2 row-span-2 rounded-sm overflow-hidden">
+                <img src={images[2]?.url} alt={images[2]?.label} className="w-full h-full object-cover" />
+              </div>
+              <div className="rounded-sm overflow-hidden">
+                <img src={images[3]?.url} alt={images[3]?.label} className="w-full h-full object-cover" />
+              </div>
+              <div className="rounded-sm overflow-hidden">
+                <img src={images[4]?.url} alt={images[4]?.label} className="w-full h-full object-cover" />
+              </div>
             </div>
-            <div className="rounded-sm overflow-hidden">
-              <img src={images[2]?.url} alt={images[2]?.label} className="w-full h-full object-cover" />
+          );
+        } else if (imageCount === 7) {
+          return (
+            <div className="grid grid-cols-4 grid-rows-4 gap-2 h-full w-full p-2">
+              <div className="col-span-2 row-span-2 rounded-sm overflow-hidden">
+                <img src={images[0]?.url} alt={images[0]?.label} className="w-full h-full object-cover" />
+              </div>
+              <div className="col-span-2 row-span-3 rounded-sm overflow-hidden">
+                <img src={images[1]?.url} alt={images[1]?.label} className="w-full h-full object-cover" />
+              </div>
+              <div className="rounded-sm overflow-hidden">
+                <img src={images[2]?.url} alt={images[2]?.label} className="w-full h-full object-cover" />
+              </div>
+              <div className="rounded-sm overflow-hidden">
+                <img src={images[3]?.url} alt={images[3]?.label} className="w-full h-full object-cover" />
+              </div>
+              <div className="rounded-sm overflow-hidden">
+                <img src={images[4]?.url} alt={images[4]?.label} className="w-full h-full object-cover" />
+              </div>
+              <div className="rounded-sm overflow-hidden">
+                <img src={images[5]?.url} alt={images[5]?.label} className="w-full h-full object-cover" />
+              </div>
+              <div className="col-span-2 rounded-sm overflow-hidden">
+                <img src={images[6]?.url} alt={images[6]?.label} className="w-full h-full object-cover" />
+              </div>
             </div>
-            <div className="col-span-2 rounded-sm overflow-hidden">
-              <img src={images[3]?.url} alt={images[3]?.label} className="w-full h-full object-cover" />
+          );
+        } else if (imageCount === 9) {
+          return (
+            <div className="grid grid-cols-3 grid-rows-4 gap-2 h-full w-full p-2">
+              <div className="col-span-2 row-span-2 rounded-sm overflow-hidden">
+                <img src={images[0]?.url} alt={images[0]?.label} className="w-full h-full object-cover" />
+              </div>
+              <div className="row-span-3 rounded-sm overflow-hidden">
+                <img src={images[1]?.url} alt={images[1]?.label} className="w-full h-full object-cover" />
+              </div>
+              <div className="rounded-sm overflow-hidden">
+                <img src={images[2]?.url} alt={images[2]?.label} className="w-full h-full object-cover" />
+              </div>
+              <div className="rounded-sm overflow-hidden">
+                <img src={images[3]?.url} alt={images[3]?.label} className="w-full h-full object-cover" />
+              </div>
+              <div className="rounded-sm overflow-hidden">
+                <img src={images[4]?.url} alt={images[4]?.label} className="w-full h-full object-cover" />
+              </div>
+              <div className="rounded-sm overflow-hidden">
+                <img src={images[5]?.url} alt={images[5]?.label} className="w-full h-full object-cover" />
+              </div>
+              <div className="rounded-sm overflow-hidden">
+                <img src={images[6]?.url} alt={images[6]?.label} className="w-full h-full object-cover" />
+              </div>
+              <div className="col-span-2 rounded-sm overflow-hidden">
+                <img src={images[7]?.url} alt={images[7]?.label} className="w-full h-full object-cover" />
+              </div>
+              <div className="col-span-2 rounded-sm overflow-hidden">
+                <img src={images[8]?.url} alt={images[8]?.label} className="w-full h-full object-cover" />
+              </div>
             </div>
-          </div>
-        );
+          );
+        }
+        return null;
 
       case "magazine":
-        return (
-          <div className="grid grid-cols-2 grid-rows-3 gap-2 h-full w-full p-2">
-            <div className="row-span-2 rounded-sm overflow-hidden">
-              <img src={images[0]?.url} alt={images[0]?.label} className="w-full h-full object-cover" />
+        if (imageCount === 4) {
+          return (
+            <div className="grid grid-cols-2 grid-rows-3 gap-2 h-full w-full p-2">
+              <div className="row-span-2 rounded-sm overflow-hidden">
+                <img src={images[0]?.url} alt={images[0]?.label} className="w-full h-full object-cover" />
+              </div>
+              <div className="rounded-sm overflow-hidden">
+                <img src={images[1]?.url} alt={images[1]?.label} className="w-full h-full object-cover" />
+              </div>
+              <div className="rounded-sm overflow-hidden">
+                <img src={images[2]?.url} alt={images[2]?.label} className="w-full h-full object-cover" />
+              </div>
+              <div className="col-span-2 rounded-sm overflow-hidden">
+                <img src={images[3]?.url} alt={images[3]?.label} className="w-full h-full object-cover" />
+              </div>
             </div>
-            <div className="rounded-sm overflow-hidden">
-              <img src={images[1]?.url} alt={images[1]?.label} className="w-full h-full object-cover" />
+          );
+        } else if (imageCount === 5) {
+          return (
+            <div className="grid grid-cols-3 grid-rows-3 gap-2 h-full w-full p-2">
+              <div className="row-span-2 rounded-sm overflow-hidden">
+                <img src={images[0]?.url} alt={images[0]?.label} className="w-full h-full object-cover" />
+              </div>
+              <div className="col-span-2 rounded-sm overflow-hidden">
+                <img src={images[1]?.url} alt={images[1]?.label} className="w-full h-full object-cover" />
+              </div>
+              <div className="col-span-2 rounded-sm overflow-hidden">
+                <img src={images[2]?.url} alt={images[2]?.label} className="w-full h-full object-cover" />
+              </div>
+              <div className="rounded-sm overflow-hidden">
+                <img src={images[3]?.url} alt={images[3]?.label} className="w-full h-full object-cover" />
+              </div>
+              <div className="col-span-3 rounded-sm overflow-hidden">
+                <img src={images[4]?.url} alt={images[4]?.label} className="w-full h-full object-cover" />
+              </div>
             </div>
-            <div className="rounded-sm overflow-hidden">
-              <img src={images[2]?.url} alt={images[2]?.label} className="w-full h-full object-cover" />
+          );
+        } else if (imageCount === 6) {
+          return (
+            <div className="grid grid-cols-3 grid-rows-4 gap-2 h-full w-full p-2">
+              <div className="col-span-2 row-span-2 rounded-sm overflow-hidden">
+                <img src={images[0]?.url} alt={images[0]?.label} className="w-full h-full object-cover" />
+              </div>
+              <div className="row-span-2 rounded-sm overflow-hidden">
+                <img src={images[1]?.url} alt={images[1]?.label} className="w-full h-full object-cover" />
+              </div>
+              <div className="rounded-sm overflow-hidden">
+                <img src={images[2]?.url} alt={images[2]?.label} className="w-full h-full object-cover" />
+              </div>
+              <div className="rounded-sm overflow-hidden">
+                <img src={images[3]?.url} alt={images[3]?.label} className="w-full h-full object-cover" />
+              </div>
+              <div className="rounded-sm overflow-hidden">
+                <img src={images[4]?.url} alt={images[4]?.label} className="w-full h-full object-cover" />
+              </div>
+              <div className="col-span-3 rounded-sm overflow-hidden">
+                <img src={images[5]?.url} alt={images[5]?.label} className="w-full h-full object-cover" />
+              </div>
             </div>
-            <div className="col-span-2 rounded-sm overflow-hidden">
-              <img src={images[3]?.url} alt={images[3]?.label} className="w-full h-full object-cover" />
+          );
+        } else if (imageCount === 7) {
+          return (
+            <div className="grid grid-cols-4 grid-rows-3 gap-2 h-full w-full p-2">
+              <div className="col-span-2 row-span-2 rounded-sm overflow-hidden">
+                <img src={images[0]?.url} alt={images[0]?.label} className="w-full h-full object-cover" />
+              </div>
+              <div className="rounded-sm overflow-hidden">
+                <img src={images[1]?.url} alt={images[1]?.label} className="w-full h-full object-cover" />
+              </div>
+              <div className="rounded-sm overflow-hidden">
+                <img src={images[2]?.url} alt={images[2]?.label} className="w-full h-full object-cover" />
+              </div>
+              <div className="rounded-sm overflow-hidden">
+                <img src={images[3]?.url} alt={images[3]?.label} className="w-full h-full object-cover" />
+              </div>
+              <div className="rounded-sm overflow-hidden">
+                <img src={images[4]?.url} alt={images[4]?.label} className="w-full h-full object-cover" />
+              </div>
+              <div className="col-span-2 rounded-sm overflow-hidden">
+                <img src={images[5]?.url} alt={images[5]?.label} className="w-full h-full object-cover" />
+              </div>
+              <div className="col-span-2 rounded-sm overflow-hidden">
+                <img src={images[6]?.url} alt={images[6]?.label} className="w-full h-full object-cover" />
+              </div>
             </div>
-          </div>
-        );
+          );
+        } else if (imageCount === 8) {
+          return (
+            <div className="grid grid-cols-3 grid-rows-4 gap-2 h-full w-full p-2">
+              <div className="row-span-3 rounded-sm overflow-hidden">
+                <img src={images[0]?.url} alt={images[0]?.label} className="w-full h-full object-cover" />
+              </div>
+              <div className="col-span-2 rounded-sm overflow-hidden">
+                <img src={images[1]?.url} alt={images[1]?.label} className="w-full h-full object-cover" />
+              </div>
+              <div className="col-span-2 rounded-sm overflow-hidden">
+                <img src={images[2]?.url} alt={images[2]?.label} className="w-full h-full object-cover" />
+              </div>
+              <div className="col-span-2 row-span-2 rounded-sm overflow-hidden">
+                <img src={images[3]?.url} alt={images[3]?.label} className="w-full h-full object-cover" />
+              </div>
+              <div className="rounded-sm overflow-hidden">
+                <img src={images[4]?.url} alt={images[4]?.label} className="w-full h-full object-cover" />
+              </div>
+              <div className="rounded-sm overflow-hidden">
+                <img src={images[5]?.url} alt={images[5]?.label} className="w-full h-full object-cover" />
+              </div>
+              <div className="rounded-sm overflow-hidden">
+                <img src={images[6]?.url} alt={images[6]?.label} className="w-full h-full object-cover" />
+              </div>
+              <div className="col-span-3 rounded-sm overflow-hidden">
+                <img src={images[7]?.url} alt={images[7]?.label} className="w-full h-full object-cover" />
+              </div>
+            </div>
+          );
+        } else if (imageCount === 9) {
+          return (
+            <div className="grid grid-cols-4 grid-rows-4 gap-2 h-full w-full p-2">
+              <div className="col-span-2 row-span-2 rounded-sm overflow-hidden">
+                <img src={images[0]?.url} alt={images[0]?.label} className="w-full h-full object-cover" />
+              </div>
+              <div className="row-span-3 rounded-sm overflow-hidden">
+                <img src={images[1]?.url} alt={images[1]?.label} className="w-full h-full object-cover" />
+              </div>
+              <div className="row-span-3 rounded-sm overflow-hidden">
+                <img src={images[2]?.url} alt={images[2]?.label} className="w-full h-full object-cover" />
+              </div>
+              <div className="rounded-sm overflow-hidden">
+                <img src={images[3]?.url} alt={images[3]?.label} className="w-full h-full object-cover" />
+              </div>
+              <div className="rounded-sm overflow-hidden">
+                <img src={images[4]?.url} alt={images[4]?.label} className="w-full h-full object-cover" />
+              </div>
+              <div className="rounded-sm overflow-hidden">
+                <img src={images[5]?.url} alt={images[5]?.label} className="w-full h-full object-cover" />
+              </div>
+              <div className="rounded-sm overflow-hidden">
+                <img src={images[6]?.url} alt={images[6]?.label} className="w-full h-full object-cover" />
+              </div>
+              <div className="rounded-sm overflow-hidden">
+                <img src={images[7]?.url} alt={images[7]?.label} className="w-full h-full object-cover" />
+              </div>
+              <div className="col-span-2 row-span-2 rounded-sm overflow-hidden">
+                <img src={images[8]?.url} alt={images[8]?.label} className="w-full h-full object-cover" />
+              </div>
+            </div>
+          );
+        }
+        return null;
 
       case "creative":
-        return (
-          <div className="grid grid-cols-3 grid-rows-3 gap-2 h-full w-full p-2">
-            <div className="col-span-2 row-span-2 rounded-sm overflow-hidden">
-              <img src={images[0]?.url} alt={images[0]?.label} className="w-full h-full object-cover" />
+        if (imageCount === 4) {
+          return (
+            <div className="grid grid-cols-3 grid-rows-3 gap-2 h-full w-full p-2">
+              <div className="col-span-2 row-span-2 rounded-sm overflow-hidden">
+                <img src={images[0]?.url} alt={images[0]?.label} className="w-full h-full object-cover" />
+              </div>
+              <div className="row-span-3 rounded-sm overflow-hidden">
+                <img src={images[1]?.url} alt={images[1]?.label} className="w-full h-full object-cover" />
+              </div>
+              <div className="rounded-sm overflow-hidden">
+                <img src={images[2]?.url} alt={images[2]?.label} className="w-full h-full object-cover" />
+              </div>
+              <div className="rounded-sm overflow-hidden">
+                <img src={images[3]?.url} alt={images[3]?.label} className="w-full h-full object-cover" />
+              </div>
             </div>
-            <div className="row-span-3 rounded-sm overflow-hidden">
-              <img src={images[1]?.url} alt={images[1]?.label} className="w-full h-full object-cover" />
+          );
+        } else if (imageCount === 6) {
+          return (
+            <div className="grid grid-cols-4 grid-rows-3 gap-2 h-full w-full p-2">
+              <div className="col-span-3 row-span-2 rounded-sm overflow-hidden">
+                <img src={images[0]?.url} alt={images[0]?.label} className="w-full h-full object-cover" />
+              </div>
+              <div className="row-span-3 rounded-sm overflow-hidden">
+                <img src={images[1]?.url} alt={images[1]?.label} className="w-full h-full object-cover" />
+              </div>
+              <div className="rounded-sm overflow-hidden">
+                <img src={images[2]?.url} alt={images[2]?.label} className="w-full h-full object-cover" />
+              </div>
+              <div className="rounded-sm overflow-hidden">
+                <img src={images[3]?.url} alt={images[3]?.label} className="w-full h-full object-cover" />
+              </div>
+              <div className="rounded-sm overflow-hidden">
+                <img src={images[4]?.url} alt={images[4]?.label} className="w-full h-full object-cover" />
+              </div>
+              <div className="col-span-2 rounded-sm overflow-hidden">
+                <img src={images[5]?.url} alt={images[5]?.label} className="w-full h-full object-cover" />
+              </div>
             </div>
-            <div className="rounded-sm overflow-hidden">
-              <img src={images[2]?.url} alt={images[2]?.label} className="w-full h-full object-cover" />
+          );
+        } else if (imageCount === 7) {
+          return (
+            <div className="grid grid-cols-3 grid-rows-4 gap-2 h-full w-full p-2">
+              <div className="col-span-2 row-span-3 rounded-sm overflow-hidden">
+                <img src={images[0]?.url} alt={images[0]?.label} className="w-full h-full object-cover" />
+              </div>
+              <div className="row-span-2 rounded-sm overflow-hidden">
+                <img src={images[1]?.url} alt={images[1]?.label} className="w-full h-full object-cover" />
+              </div>
+              <div className="rounded-sm overflow-hidden">
+                <img src={images[2]?.url} alt={images[2]?.label} className="w-full h-full object-cover" />
+              </div>
+              <div className="rounded-sm overflow-hidden">
+                <img src={images[3]?.url} alt={images[3]?.label} className="w-full h-full object-cover" />
+              </div>
+              <div className="rounded-sm overflow-hidden">
+                <img src={images[4]?.url} alt={images[4]?.label} className="w-full h-full object-cover" />
+              </div>
+              <div className="rounded-sm overflow-hidden">
+                <img src={images[5]?.url} alt={images[5]?.label} className="w-full h-full object-cover" />
+              </div>
+              <div className="col-span-3 rounded-sm overflow-hidden">
+                <img src={images[6]?.url} alt={images[6]?.label} className="w-full h-full object-cover" />
+              </div>
             </div>
-            <div className="rounded-sm overflow-hidden">
-              <img src={images[3]?.url} alt={images[3]?.label} className="w-full h-full object-cover" />
+          );
+        } else if (imageCount === 8) {
+          return (
+            <div className="grid grid-cols-4 grid-rows-3 gap-2 h-full w-full p-2">
+              <div className="col-span-2 row-span-2 rounded-sm overflow-hidden">
+                <img src={images[0]?.url} alt={images[0]?.label} className="w-full h-full object-cover" />
+              </div>
+              <div className="col-span-2 row-span-3 rounded-sm overflow-hidden">
+                <img src={images[1]?.url} alt={images[1]?.label} className="w-full h-full object-cover" />
+              </div>
+              <div className="rounded-sm overflow-hidden">
+                <img src={images[2]?.url} alt={images[2]?.label} className="w-full h-full object-cover" />
+              </div>
+              <div className="rounded-sm overflow-hidden">
+                <img src={images[3]?.url} alt={images[3]?.label} className="w-full h-full object-cover" />
+              </div>
+              <div className="rounded-sm overflow-hidden">
+                <img src={images[4]?.url} alt={images[4]?.label} className="w-full h-full object-cover" />
+              </div>
+              <div className="rounded-sm overflow-hidden">
+                <img src={images[5]?.url} alt={images[5]?.label} className="w-full h-full object-cover" />
+              </div>
+              <div className="rounded-sm overflow-hidden">
+                <img src={images[6]?.url} alt={images[6]?.label} className="w-full h-full object-cover" />
+              </div>
+              <div className="rounded-sm overflow-hidden">
+                <img src={images[7]?.url} alt={images[7]?.label} className="w-full h-full object-cover" />
+              </div>
             </div>
-          </div>
-        );
+          );
+        } else if (imageCount === 9) {
+          return (
+            <div className="grid grid-cols-4 grid-rows-3 gap-2 h-full w-full p-2">
+              <div className="col-span-2 row-span-3 rounded-sm overflow-hidden">
+                <img src={images[0]?.url} alt={images[0]?.label} className="w-full h-full object-cover" />
+              </div>
+              <div className="col-span-2 row-span-2 rounded-sm overflow-hidden">
+                <img src={images[1]?.url} alt={images[1]?.label} className="w-full h-full object-cover" />
+              </div>
+              <div className="rounded-sm overflow-hidden">
+                <img src={images[2]?.url} alt={images[2]?.label} className="w-full h-full object-cover" />
+              </div>
+              <div className="rounded-sm overflow-hidden">
+                <img src={images[3]?.url} alt={images[3]?.label} className="w-full h-full object-cover" />
+              </div>
+              <div className="rounded-sm overflow-hidden">
+                <img src={images[4]?.url} alt={images[4]?.label} className="w-full h-full object-cover" />
+              </div>
+              <div className="rounded-sm overflow-hidden">
+                <img src={images[5]?.url} alt={images[5]?.label} className="w-full h-full object-cover" />
+              </div>
+              <div className="rounded-sm overflow-hidden">
+                <img src={images[6]?.url} alt={images[6]?.label} className="w-full h-full object-cover" />
+              </div>
+              <div className="rounded-sm overflow-hidden">
+                <img src={images[7]?.url} alt={images[7]?.label} className="w-full h-full object-cover" />
+              </div>
+              <div className="rounded-sm overflow-hidden">
+                <img src={images[8]?.url} alt={images[8]?.label} className="w-full h-full object-cover" />
+              </div>
+            </div>
+          );
+        }
+        return null;
 
       case "polaroid-grid":
         return (
