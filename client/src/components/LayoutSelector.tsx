@@ -158,11 +158,11 @@ function LayoutPreview({ layout, count }: { layout: string; count: number }) {
 
     case "creative":
       return (
-        <div className="grid grid-cols-4 grid-rows-4 gap-0.5 w-full h-full">
+        <div className="grid grid-cols-3 grid-rows-3 gap-0.5 w-full h-full">
           <Cell className="col-span-2 row-span-2" />
-          <Cell className="col-span-2" />
-          <Cell className="col-span-2" />
-          <Cell className="col-span-2 row-span-2" />
+          <Cell className="row-span-3" />
+          <Cell />
+          <Cell />
         </div>
       );
 
@@ -181,9 +181,9 @@ function LayoutPreview({ layout, count }: { layout: string; count: number }) {
     case "cross":
       return (
         <div className="grid grid-cols-3 grid-rows-3 gap-0.5 w-full h-full">
-          <div /><Cell /><div />
+          <Cell className="col-span-3" />
           <Cell /><Cell /><Cell />
-          <div /><Cell /><div />
+          <Cell className="col-span-3" />
         </div>
       );
 
@@ -223,33 +223,51 @@ function LayoutPreview({ layout, count }: { layout: string; count: number }) {
       );
 
     case "hexagon":
+      return (
+        <div className="grid grid-cols-3 grid-rows-2 gap-0.5 w-full h-full">
+          {[...Array(6)].map((_, i) => <Cell key={i} />)}
+        </div>
+      );
+
     case "honeycomb":
       return (
-        <div className="grid grid-cols-3 gap-0.5 w-full h-full">
-          <div className="flex justify-center"><Cell className="w-2/3 h-full" /></div>
+        <div className="grid grid-cols-4 grid-rows-4 gap-0.5 w-full h-full">
+          <Cell className="col-span-2" />
+          <Cell className="col-span-2" />
           <Cell />
-          <div className="flex justify-center"><Cell className="w-2/3 h-full" /></div>
-          <Cell /><Cell /><Cell />
-          <div className="flex justify-center"><Cell className="w-2/3 h-full" /></div>
+          <Cell className="col-span-2 row-span-2" />
           <Cell />
-          <div className="flex justify-center"><Cell className="w-2/3 h-full" /></div>
+          <Cell />
+          <Cell className="col-span-2" />
         </div>
       );
 
     case "circle":
       return (
-        <div className="relative w-full h-full rounded-full overflow-hidden">
-          <div className="grid grid-cols-3 grid-rows-3 gap-0.5 w-full h-full p-2">
-            {[...Array(Math.min(count, 9))].map((_, i) => <Cell key={i} />)}
-          </div>
+        <div className="grid grid-cols-3 grid-rows-3 gap-0.5 w-full h-full">
+          <Cell /><Cell /><Cell />
+          <Cell className="col-span-3" />
+          <Cell className="col-span-3" />
         </div>
       );
 
     case "octagon":
+      return (
+        <div className="grid grid-cols-4 grid-rows-2 gap-0.5 w-full h-full">
+          {[...Array(8)].map((_, i) => <Cell key={i} />)}
+        </div>
+      );
+
     case "mosaic":
       return (
-        <div className="grid grid-cols-3 grid-rows-3 gap-0.5 w-full h-full">
-          {[...Array(Math.min(count, 9))].map((_, i) => <Cell key={i} />)}
+        <div className="grid grid-cols-4 grid-rows-4 gap-0.5 w-full h-full">
+          <Cell className="col-span-2 row-span-2" />
+          <Cell className="row-span-2" />
+          <Cell className="row-span-2" />
+          <Cell /><Cell />
+          <Cell className="col-span-2" />
+          <Cell /><Cell />
+          <Cell className="col-span-2 row-span-2" />
         </div>
       );
 

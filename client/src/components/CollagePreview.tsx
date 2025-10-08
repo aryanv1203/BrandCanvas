@@ -197,17 +197,17 @@ export default function CollagePreview({
 
       case "creative":
         return (
-          <div className="grid grid-cols-4 grid-rows-4 gap-2 h-full w-full p-2">
+          <div className="grid grid-cols-3 grid-rows-3 gap-2 h-full w-full p-2">
             <div className="col-span-2 row-span-2 rounded-sm overflow-hidden">
               <img src={images[0]?.url} alt={images[0]?.label} className="w-full h-full object-cover" />
             </div>
-            <div className="col-span-2 rounded-sm overflow-hidden">
+            <div className="row-span-3 rounded-sm overflow-hidden">
               <img src={images[1]?.url} alt={images[1]?.label} className="w-full h-full object-cover" />
             </div>
-            <div className="col-span-2 rounded-sm overflow-hidden">
+            <div className="rounded-sm overflow-hidden">
               <img src={images[2]?.url} alt={images[2]?.label} className="w-full h-full object-cover" />
             </div>
-            <div className="col-span-2 row-span-2 rounded-sm overflow-hidden">
+            <div className="rounded-sm overflow-hidden">
               <img src={images[3]?.url} alt={images[3]?.label} className="w-full h-full object-cover" />
             </div>
           </div>
@@ -281,19 +281,132 @@ export default function CollagePreview({
         );
 
       case "cross":
-      case "circle":
-      case "hexagon":
-      case "honeycomb":
-      case "octagon":
-      case "mosaic":
-        // For complex shapes, use a creative grid approach
+        // 5 images in cross pattern - fills all space
         return (
           <div className="grid grid-cols-3 grid-rows-3 gap-2 h-full w-full p-2">
-            {images.slice(0, 9).map((img, idx) => (
+            <div className="col-span-3 rounded-sm overflow-hidden">
+              <img src={images[0]?.url} alt={images[0]?.label} className="w-full h-full object-cover" />
+            </div>
+            <div className="rounded-sm overflow-hidden">
+              <img src={images[1]?.url} alt={images[1]?.label} className="w-full h-full object-cover" />
+            </div>
+            <div className="rounded-sm overflow-hidden">
+              <img src={images[2]?.url} alt={images[2]?.label} className="w-full h-full object-cover" />
+            </div>
+            <div className="rounded-sm overflow-hidden">
+              <img src={images[3]?.url} alt={images[3]?.label} className="w-full h-full object-cover" />
+            </div>
+            <div className="col-span-3 rounded-sm overflow-hidden">
+              <img src={images[4]?.url} alt={images[4]?.label} className="w-full h-full object-cover" />
+            </div>
+          </div>
+        );
+
+      case "circle":
+        // 5 images - no blank spaces
+        return (
+          <div className="grid grid-cols-3 grid-rows-3 gap-2 h-full w-full p-2">
+            <div className="rounded-sm overflow-hidden">
+              <img src={images[0]?.url} alt={images[0]?.label} className="w-full h-full object-cover" />
+            </div>
+            <div className="rounded-sm overflow-hidden">
+              <img src={images[1]?.url} alt={images[1]?.label} className="w-full h-full object-cover" />
+            </div>
+            <div className="rounded-sm overflow-hidden">
+              <img src={images[2]?.url} alt={images[2]?.label} className="w-full h-full object-cover" />
+            </div>
+            <div className="col-span-3 rounded-sm overflow-hidden">
+              <img src={images[3]?.url} alt={images[3]?.label} className="w-full h-full object-cover" />
+            </div>
+            <div className="col-span-3 rounded-sm overflow-hidden">
+              <img src={images[4]?.url} alt={images[4]?.label} className="w-full h-full object-cover" />
+            </div>
+          </div>
+        );
+
+      case "hexagon":
+        // 6 images hexagon pattern
+        return (
+          <div className="grid grid-cols-3 grid-rows-2 gap-2 h-full w-full p-2">
+            {images.slice(0, 6).map((img, idx) => (
               <div key={idx} className="relative bg-muted rounded-sm overflow-hidden">
                 <img src={img.url} alt={img.label} className="w-full h-full object-cover" />
               </div>
             ))}
+          </div>
+        );
+
+      case "honeycomb":
+        // 7 images honeycomb
+        return (
+          <div className="grid grid-cols-4 grid-rows-4 gap-2 h-full w-full p-2">
+            <div className="col-span-2 rounded-sm overflow-hidden">
+              <img src={images[0]?.url} alt={images[0]?.label} className="w-full h-full object-cover" />
+            </div>
+            <div className="col-span-2 rounded-sm overflow-hidden">
+              <img src={images[1]?.url} alt={images[1]?.label} className="w-full h-full object-cover" />
+            </div>
+            <div className="rounded-sm overflow-hidden">
+              <img src={images[2]?.url} alt={images[2]?.label} className="w-full h-full object-cover" />
+            </div>
+            <div className="col-span-2 row-span-2 rounded-sm overflow-hidden">
+              <img src={images[3]?.url} alt={images[3]?.label} className="w-full h-full object-cover" />
+            </div>
+            <div className="rounded-sm overflow-hidden">
+              <img src={images[4]?.url} alt={images[4]?.label} className="w-full h-full object-cover" />
+            </div>
+            <div className="rounded-sm overflow-hidden">
+              <img src={images[5]?.url} alt={images[5]?.label} className="w-full h-full object-cover" />
+            </div>
+            <div className="col-span-2 rounded-sm overflow-hidden">
+              <img src={images[6]?.url} alt={images[6]?.label} className="w-full h-full object-cover" />
+            </div>
+          </div>
+        );
+
+      case "octagon":
+        // 8 images octagon pattern
+        return (
+          <div className="grid grid-cols-4 grid-rows-2 gap-2 h-full w-full p-2">
+            {images.slice(0, 8).map((img, idx) => (
+              <div key={idx} className="relative bg-muted rounded-sm overflow-hidden">
+                <img src={img.url} alt={img.label} className="w-full h-full object-cover" />
+              </div>
+            ))}
+          </div>
+        );
+
+      case "mosaic":
+        // 9 images mosaic - varied sizes
+        return (
+          <div className="grid grid-cols-4 grid-rows-4 gap-2 h-full w-full p-2">
+            <div className="col-span-2 row-span-2 rounded-sm overflow-hidden">
+              <img src={images[0]?.url} alt={images[0]?.label} className="w-full h-full object-cover" />
+            </div>
+            <div className="row-span-2 rounded-sm overflow-hidden">
+              <img src={images[1]?.url} alt={images[1]?.label} className="w-full h-full object-cover" />
+            </div>
+            <div className="row-span-2 rounded-sm overflow-hidden">
+              <img src={images[2]?.url} alt={images[2]?.label} className="w-full h-full object-cover" />
+            </div>
+            <div className="rounded-sm overflow-hidden">
+              <img src={images[3]?.url} alt={images[3]?.label} className="w-full h-full object-cover" />
+            </div>
+            <div className="rounded-sm overflow-hidden">
+              <img src={images[4]?.url} alt={images[4]?.label} className="w-full h-full object-cover" />
+            </div>
+            <div className="col-span-2 rounded-sm overflow-hidden">
+              <img src={images[5]?.url} alt={images[5]?.label} className="w-full h-full object-cover" />
+            </div>
+            <div className="rounded-sm overflow-hidden">
+              <img src={images[6]?.url} alt={images[6]?.label} className="w-full h-full object-cover" />
+            </div>
+            <div className="rounded-sm overflow-hidden">
+              <img src={images[7]?.url} alt={images[7]?.label} className="w-full h-full object-cover" />
+            </div>
+            <div className="col-span-2 row-span-2 rounded-sm overflow-hidden">
+              <img src={images[8]?.url} alt={images[8]?.label} className="w-full h-full object-cover" />
+            </div>
           </div>
         );
 
