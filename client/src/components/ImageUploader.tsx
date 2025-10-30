@@ -22,7 +22,7 @@ export default function ImageUploader({
   images,
   onImagesAdd,
   onImageRemove,
-  maxImages = 9,
+  maxImages = 25,
 }: ImageUploaderProps) {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -93,7 +93,7 @@ export default function ImageUploader({
                 <Button
                   size="icon"
                   variant="destructive"
-                  className="absolute top-2 right-2 h-7 w-7 opacity-0 group-hover:opacity-100 transition-opacity"
+                  className="absolute top-2 right-2 h-7 w-7 opacity-100 transition-opacity"
                   onClick={() => onImageRemove(image.id)}
                   data-testid={`button-remove-${image.label}`}
                 >

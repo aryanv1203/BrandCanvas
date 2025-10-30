@@ -9,17 +9,6 @@ interface TextOverlayControlsProps {
   onTextOverlayChange: (overlay: TextOverlay | null) => void;
 }
 
-const presetPositions = [
-  { x: 10, y: 10, label: "↖" },
-  { x: 50, y: 10, label: "↑" },
-  { x: 90, y: 10, label: "↗" },
-  { x: 10, y: 50, label: "←" },
-  { x: 50, y: 50, label: "·" },
-  { x: 90, y: 50, label: "→" },
-  { x: 10, y: 90, label: "↙" },
-  { x: 50, y: 90, label: "↓" },
-  { x: 90, y: 90, label: "↘" },
-] as const;
 
 const colorPresets = [
   "#FFFFFF", "#000000", "#EF4444", "#F59E0B", "#10B981", 
@@ -102,23 +91,7 @@ export default function TextOverlayControls({
         </div>
 
         <div className="space-y-2">
-          <Label>Text Position (Drag text in preview or use presets)</Label>
-          <div className="grid grid-cols-3 gap-2 mb-2">
-            {presetPositions.map(({ x, y, label }, idx) => (
-              <button
-                key={idx}
-                onClick={() => updateOverlay({ position: { x, y } })}
-                className={`aspect-square rounded-md border-2 transition-all hover-elevate active-elevate-2 text-lg font-bold ${
-                  overlay.position.x === x && overlay.position.y === y
-                    ? "border-primary bg-primary/10"
-                    : "border-border"
-                }`}
-                data-testid={`button-position-${idx}`}
-              >
-                {label}
-              </button>
-            ))}
-          </div>
+          <Label>Text Position (Drag text in preview)</Label>
           <div className="grid grid-cols-2 gap-2 text-xs">
             <div className="space-y-1">
               <Label htmlFor="position-x" className="text-xs">X Position (%)</Label>

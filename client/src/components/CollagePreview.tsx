@@ -484,11 +484,11 @@ export default function CollagePreview({
           );
         } else if (imageCount === 6) {
           return (
-            <div className="grid grid-cols-3 grid-rows-3 gap-2 h-full w-full p-2">
+            <div className="grid grid-cols-4 grid-rows-3 gap-2 h-full w-full p-2">
               <div className="col-span-2 row-span-2 rounded-sm overflow-hidden">
                 <img src={images[0]?.url} alt={images[0]?.label} className="w-full h-full object-cover" />
               </div>
-              <div className="row-span-2 rounded-sm overflow-hidden">
+              <div className="col-span-2 row-span-2 rounded-sm overflow-hidden">
                 <img src={images[1]?.url} alt={images[1]?.label} className="w-full h-full object-cover" />
               </div>
               <div className="rounded-sm overflow-hidden">
@@ -500,7 +500,7 @@ export default function CollagePreview({
               <div className="rounded-sm overflow-hidden">
                 <img src={images[4]?.url} alt={images[4]?.label} className="w-full h-full object-cover" />
               </div>
-              <div className="col-span-2 rounded-sm overflow-hidden">
+              <div className="rounded-sm overflow-hidden">
                 <img src={images[5]?.url} alt={images[5]?.label} className="w-full h-full object-cover" />
               </div>
             </div>
