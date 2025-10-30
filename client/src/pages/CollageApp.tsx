@@ -178,6 +178,7 @@ export default function CollageApp() {
                   collageName={currentCombination.name}
                   currentIndex={currentCombinationIndex + 1}
                   totalCount={combinations.length}
+                  onTextOverlayChange={setTextOverlay}
                   onPrevious={
                     currentCombinationIndex > 0
                       ? () =>

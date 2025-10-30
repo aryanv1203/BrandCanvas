@@ -23,7 +23,10 @@ export const textOverlaySchema = z.object({
   text: z.string(),
   fontSize: z.number().min(12).max(72),
   color: z.string(),
-  position: z.enum(['top-left', 'top-center', 'top-right', 'center-left', 'center', 'center-right', 'bottom-left', 'bottom-center', 'bottom-right']),
+  position: z.object({
+    x: z.number().min(0).max(100), // percentage from left
+    y: z.number().min(0).max(100), // percentage from top
+  }),
 });
 
 export const collageSettingsSchema = z.object({

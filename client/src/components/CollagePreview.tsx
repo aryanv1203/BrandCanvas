@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Card } from "@/components/ui/card";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -13,6 +13,7 @@ interface CollagePreviewProps {
   totalCount?: number;
   onPrevious?: () => void;
   onNext?: () => void;
+  onTextOverlayChange?: (overlay: TextOverlay | null) => void;
 }
 
 export default function CollagePreview({
@@ -24,12 +25,66 @@ export default function CollagePreview({
   totalCount = 1,
   onPrevious,
   onNext,
+  onTextOverlayChange,
 }: CollagePreviewProps) {
   const canvasRef = useRef<HTMLDivElement>(null);
+  const [isDragging, setIsDragging] = useState(false);
+  const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
 
   useEffect(() => {
     if (!canvasRef.current) return;
   }, [images, layout, textOverlay]);
+
+  // Set up window-level event listeners for drag handling
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      if (!isDragging || !textOverlay || !onTextOverlayChange || !canvasRef.current) return;
+      
+      // Check if mouse button is still pressed
+      if (e.buttons !== 1) {
+        setIsDragging(false);
+        return;
+      }
+      
+      const rect = canvasRef.current.getBoundingClientRect();
+      const deltaX = e.clientX - dragStart.x;
+      const deltaY = e.clientY - dragStart.y;
+      
+      const deltaXPercent = (deltaX / rect.width) * 100;
+      const deltaYPercent = (deltaY / rect.height) * 100;
+      
+      const newX = Math.max(0, Math.min(100, textOverlay.position.x + deltaXPercent));
+      const newY = Math.max(0, Math.min(100, textOverlay.position.y + deltaYPercent));
+      
+      onTextOverlayChange({
+        ...textOverlay,
+        position: { x: newX, y: newY }
+      });
+      
+      setDragStart({ x: e.clientX, y: e.clientY });
+    };
+
+    const handleMouseUp = () => {
+      setIsDragging(false);
+    };
+
+    if (isDragging) {
+      window.addEventListener('mousemove', handleMouseMove);
+      window.addEventListener('mouseup', handleMouseUp);
+      
+      return () => {
+        window.removeEventListener('mousemove', handleMouseMove);
+        window.removeEventListener('mouseup', handleMouseUp);
+      };
+    }
+  }, [isDragging, textOverlay, onTextOverlayChange, dragStart]);
+
+  const handleTextMouseDown = (e: React.MouseEvent) => {
+    if (!textOverlay || !onTextOverlayChange || !canvasRef.current) return;
+    e.preventDefault();
+    setIsDragging(true);
+    setDragStart({ x: e.clientX, y: e.clientY });
+  };
 
   const renderLayout = () => {
     const imageCount = images.length;
@@ -291,7 +346,7 @@ export default function CollagePreview({
               <div className="rounded-sm overflow-hidden">
                 <img src={images[3]?.url} alt={images[3]?.label} className="w-full h-full object-cover" />
               </div>
-              <div className="col-span-3 rounded-sm overflow-hidden">
+              <div className="col-span-2 rounded-sm overflow-hidden">
                 <img src={images[4]?.url} alt={images[4]?.label} className="w-full h-full object-cover" />
               </div>
             </div>
@@ -347,29 +402,29 @@ export default function CollagePreview({
           );
         } else if (imageCount === 8) {
           return (
-            <div className="grid grid-cols-3 grid-rows-4 gap-2 h-full w-full p-2">
-              <div className="row-span-3 rounded-sm overflow-hidden">
+            <div className="grid grid-cols-4 grid-rows-4 gap-2 h-full w-full p-2">
+              <div className="col-span-2 row-span-2 rounded-sm overflow-hidden">
                 <img src={images[0]?.url} alt={images[0]?.label} className="w-full h-full object-cover" />
               </div>
-              <div className="col-span-2 rounded-sm overflow-hidden">
+              <div className="row-span-2 rounded-sm overflow-hidden">
                 <img src={images[1]?.url} alt={images[1]?.label} className="w-full h-full object-cover" />
               </div>
-              <div className="col-span-2 rounded-sm overflow-hidden">
+              <div className="row-span-2 rounded-sm overflow-hidden">
                 <img src={images[2]?.url} alt={images[2]?.label} className="w-full h-full object-cover" />
               </div>
-              <div className="col-span-2 row-span-2 rounded-sm overflow-hidden">
+              <div className="rounded-sm overflow-hidden">
                 <img src={images[3]?.url} alt={images[3]?.label} className="w-full h-full object-cover" />
               </div>
               <div className="rounded-sm overflow-hidden">
                 <img src={images[4]?.url} alt={images[4]?.label} className="w-full h-full object-cover" />
               </div>
-              <div className="rounded-sm overflow-hidden">
+              <div className="col-span-2 row-span-2 rounded-sm overflow-hidden">
                 <img src={images[5]?.url} alt={images[5]?.label} className="w-full h-full object-cover" />
               </div>
               <div className="rounded-sm overflow-hidden">
                 <img src={images[6]?.url} alt={images[6]?.label} className="w-full h-full object-cover" />
               </div>
-              <div className="col-span-3 rounded-sm overflow-hidden">
+              <div className="rounded-sm overflow-hidden">
                 <img src={images[7]?.url} alt={images[7]?.label} className="w-full h-full object-cover" />
               </div>
             </div>
@@ -429,11 +484,11 @@ export default function CollagePreview({
           );
         } else if (imageCount === 6) {
           return (
-            <div className="grid grid-cols-4 grid-rows-3 gap-2 h-full w-full p-2">
-              <div className="col-span-3 row-span-2 rounded-sm overflow-hidden">
+            <div className="grid grid-cols-3 grid-rows-3 gap-2 h-full w-full p-2">
+              <div className="col-span-2 row-span-2 rounded-sm overflow-hidden">
                 <img src={images[0]?.url} alt={images[0]?.label} className="w-full h-full object-cover" />
               </div>
-              <div className="row-span-3 rounded-sm overflow-hidden">
+              <div className="row-span-2 rounded-sm overflow-hidden">
                 <img src={images[1]?.url} alt={images[1]?.label} className="w-full h-full object-cover" />
               </div>
               <div className="rounded-sm overflow-hidden">
@@ -452,14 +507,14 @@ export default function CollagePreview({
           );
         } else if (imageCount === 7) {
           return (
-            <div className="grid grid-cols-3 grid-rows-4 gap-2 h-full w-full p-2">
-              <div className="col-span-2 row-span-3 rounded-sm overflow-hidden">
+            <div className="grid grid-cols-4 grid-rows-3 gap-2 h-full w-full p-2">
+              <div className="col-span-2 row-span-2 rounded-sm overflow-hidden">
                 <img src={images[0]?.url} alt={images[0]?.label} className="w-full h-full object-cover" />
               </div>
               <div className="row-span-2 rounded-sm overflow-hidden">
                 <img src={images[1]?.url} alt={images[1]?.label} className="w-full h-full object-cover" />
               </div>
-              <div className="rounded-sm overflow-hidden">
+              <div className="row-span-2 rounded-sm overflow-hidden">
                 <img src={images[2]?.url} alt={images[2]?.label} className="w-full h-full object-cover" />
               </div>
               <div className="rounded-sm overflow-hidden">
@@ -468,10 +523,10 @@ export default function CollagePreview({
               <div className="rounded-sm overflow-hidden">
                 <img src={images[4]?.url} alt={images[4]?.label} className="w-full h-full object-cover" />
               </div>
-              <div className="rounded-sm overflow-hidden">
+              <div className="col-span-2 rounded-sm overflow-hidden">
                 <img src={images[5]?.url} alt={images[5]?.label} className="w-full h-full object-cover" />
               </div>
-              <div className="col-span-3 rounded-sm overflow-hidden">
+              <div className="col-span-2 rounded-sm overflow-hidden">
                 <img src={images[6]?.url} alt={images[6]?.label} className="w-full h-full object-cover" />
               </div>
             </div>
@@ -652,21 +707,9 @@ export default function CollagePreview({
         );
 
       case "hexagon":
-        // 6 images hexagon pattern
+        // 6 images unique hexagon-inspired pattern
         return (
-          <div className="grid grid-cols-3 grid-rows-2 gap-2 h-full w-full p-2">
-            {images.slice(0, 6).map((img, idx) => (
-              <div key={idx} className="relative bg-muted rounded-sm overflow-hidden">
-                <img src={img.url} alt={img.label} className="w-full h-full object-cover" />
-              </div>
-            ))}
-          </div>
-        );
-
-      case "honeycomb":
-        // 7 images honeycomb
-        return (
-          <div className="grid grid-cols-4 grid-rows-4 gap-2 h-full w-full p-2">
+          <div className="grid grid-cols-4 grid-rows-3 gap-2 h-full w-full p-2">
             <div className="col-span-2 rounded-sm overflow-hidden">
               <img src={images[0]?.url} alt={images[0]?.label} className="w-full h-full object-cover" />
             </div>
@@ -676,10 +719,63 @@ export default function CollagePreview({
             <div className="rounded-sm overflow-hidden">
               <img src={images[2]?.url} alt={images[2]?.label} className="w-full h-full object-cover" />
             </div>
-            <div className="col-span-2 row-span-2 rounded-sm overflow-hidden">
+            <div className="col-span-2 rounded-sm overflow-hidden">
               <img src={images[3]?.url} alt={images[3]?.label} className="w-full h-full object-cover" />
             </div>
             <div className="rounded-sm overflow-hidden">
+              <img src={images[4]?.url} alt={images[4]?.label} className="w-full h-full object-cover" />
+            </div>
+            <div className="col-span-2 rounded-sm overflow-hidden">
+              <img src={images[5]?.url} alt={images[5]?.label} className="w-full h-full object-cover" />
+            </div>
+          </div>
+        );
+
+      case "honeycomb":
+        // 7 images attractive honeycomb pattern
+        return (
+          <div className="grid grid-cols-6 grid-rows-4 gap-2 h-full w-full p-2">
+            <div className="col-span-2 row-span-2 rounded-sm overflow-hidden">
+              <img src={images[0]?.url} alt={images[0]?.label} className="w-full h-full object-cover" />
+            </div>
+            <div className="col-span-2 rounded-sm overflow-hidden">
+              <img src={images[1]?.url} alt={images[1]?.label} className="w-full h-full object-cover" />
+            </div>
+            <div className="col-span-2 row-span-2 rounded-sm overflow-hidden">
+              <img src={images[2]?.url} alt={images[2]?.label} className="w-full h-full object-cover" />
+            </div>
+            <div className="col-span-2 rounded-sm overflow-hidden">
+              <img src={images[3]?.url} alt={images[3]?.label} className="w-full h-full object-cover" />
+            </div>
+            <div className="col-span-2 row-span-2 rounded-sm overflow-hidden">
+              <img src={images[4]?.url} alt={images[4]?.label} className="w-full h-full object-cover" />
+            </div>
+            <div className="col-span-2 rounded-sm overflow-hidden">
+              <img src={images[5]?.url} alt={images[5]?.label} className="w-full h-full object-cover" />
+            </div>
+            <div className="col-span-4 rounded-sm overflow-hidden">
+              <img src={images[6]?.url} alt={images[6]?.label} className="w-full h-full object-cover" />
+            </div>
+          </div>
+        );
+
+      case "octagon":
+        // 8 images unique octagon-inspired pattern
+        return (
+          <div className="grid grid-cols-5 grid-rows-4 gap-2 h-full w-full p-2">
+            <div className="col-span-2 rounded-sm overflow-hidden">
+              <img src={images[0]?.url} alt={images[0]?.label} className="w-full h-full object-cover" />
+            </div>
+            <div className="rounded-sm overflow-hidden">
+              <img src={images[1]?.url} alt={images[1]?.label} className="w-full h-full object-cover" />
+            </div>
+            <div className="col-span-2 rounded-sm overflow-hidden">
+              <img src={images[2]?.url} alt={images[2]?.label} className="w-full h-full object-cover" />
+            </div>
+            <div className="rounded-sm overflow-hidden">
+              <img src={images[3]?.url} alt={images[3]?.label} className="w-full h-full object-cover" />
+            </div>
+            <div className="col-span-3 row-span-2 rounded-sm overflow-hidden">
               <img src={images[4]?.url} alt={images[4]?.label} className="w-full h-full object-cover" />
             </div>
             <div className="rounded-sm overflow-hidden">
@@ -688,18 +784,9 @@ export default function CollagePreview({
             <div className="col-span-2 rounded-sm overflow-hidden">
               <img src={images[6]?.url} alt={images[6]?.label} className="w-full h-full object-cover" />
             </div>
-          </div>
-        );
-
-      case "octagon":
-        // 8 images octagon pattern
-        return (
-          <div className="grid grid-cols-4 grid-rows-2 gap-2 h-full w-full p-2">
-            {images.slice(0, 8).map((img, idx) => (
-              <div key={idx} className="relative bg-muted rounded-sm overflow-hidden">
-                <img src={img.url} alt={img.label} className="w-full h-full object-cover" />
-              </div>
-            ))}
+            <div className="col-span-3 rounded-sm overflow-hidden">
+              <img src={images[7]?.url} alt={images[7]?.label} className="w-full h-full object-cover" />
+            </div>
           </div>
         );
 
@@ -768,28 +855,24 @@ export default function CollagePreview({
 
           {textOverlay?.text && (
             <div
-              className={`absolute inset-0 flex items-${
-                textOverlay.position.includes("top")
-                  ? "start"
-                  : textOverlay.position.includes("bottom")
-                  ? "end"
-                  : "center"
-              } justify-${
-                textOverlay.position.includes("left")
-                  ? "start"
-                  : textOverlay.position.includes("right")
-                  ? "end"
-                  : "center"
-              } p-8 pointer-events-none`}
+              className="absolute"
+              style={{
+                left: `${textOverlay.position.x}%`,
+                top: `${textOverlay.position.y}%`,
+                transform: 'translate(-50%, -50%)',
+                cursor: onTextOverlayChange ? 'move' : 'default',
+              }}
+              onMouseDown={handleTextMouseDown}
+              data-testid="text-overlay-preview"
             >
               <div
                 style={{
                   fontSize: `${textOverlay.fontSize}px`,
                   color: textOverlay.color,
                   textShadow: "2px 2px 4px rgba(0,0,0,0.5)",
+                  userSelect: 'none',
                 }}
-                className="font-bold"
-                data-testid="text-overlay-preview"
+                className="font-bold whitespace-nowrap"
               >
                 {textOverlay.text}
               </div>

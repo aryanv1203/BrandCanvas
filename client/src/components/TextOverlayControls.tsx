@@ -9,16 +9,16 @@ interface TextOverlayControlsProps {
   onTextOverlayChange: (overlay: TextOverlay | null) => void;
 }
 
-const positions = [
-  { value: "top-left", label: "↖" },
-  { value: "top-center", label: "↑" },
-  { value: "top-right", label: "↗" },
-  { value: "center-left", label: "←" },
-  { value: "center", label: "·" },
-  { value: "center-right", label: "→" },
-  { value: "bottom-left", label: "↙" },
-  { value: "bottom-center", label: "↓" },
-  { value: "bottom-right", label: "↘" },
+const presetPositions = [
+  { x: 10, y: 10, label: "↖" },
+  { x: 50, y: 10, label: "↑" },
+  { x: 90, y: 10, label: "↗" },
+  { x: 10, y: 50, label: "←" },
+  { x: 50, y: 50, label: "·" },
+  { x: 90, y: 50, label: "→" },
+  { x: 10, y: 90, label: "↙" },
+  { x: 50, y: 90, label: "↓" },
+  { x: 90, y: 90, label: "↘" },
 ] as const;
 
 const colorPresets = [
@@ -34,7 +34,7 @@ export default function TextOverlayControls({
     text: "",
     fontSize: 24,
     color: "#FFFFFF",
-    position: "center" as const,
+    position: { x: 50, y: 50 },
   };
 
   const updateOverlay = (updates: Partial<TextOverlay>) => {
@@ -102,22 +102,52 @@ export default function TextOverlayControls({
         </div>
 
         <div className="space-y-2">
-          <Label>Text Position</Label>
-          <div className="grid grid-cols-3 gap-2">
-            {positions.map(({ value, label }) => (
+          <Label>Text Position (Drag text in preview or use presets)</Label>
+          <div className="grid grid-cols-3 gap-2 mb-2">
+            {presetPositions.map(({ x, y, label }, idx) => (
               <button
-                key={value}
-                onClick={() => updateOverlay({ position: value as any })}
+                key={idx}
+                onClick={() => updateOverlay({ position: { x, y } })}
                 className={`aspect-square rounded-md border-2 transition-all hover-elevate active-elevate-2 text-lg font-bold ${
-                  overlay.position === value
+                  overlay.position.x === x && overlay.position.y === y
                     ? "border-primary bg-primary/10"
                     : "border-border"
                 }`}
-                data-testid={`button-position-${value}`}
+                data-testid={`button-position-${idx}`}
               >
                 {label}
               </button>
             ))}
+          </div>
+          <div className="grid grid-cols-2 gap-2 text-xs">
+            <div className="space-y-1">
+              <Label htmlFor="position-x" className="text-xs">X Position (%)</Label>
+              <Input
+                id="position-x"
+                type="number"
+                min="0"
+                max="100"
+                value={Math.round(overlay.position.x)}
+                onChange={(e) => updateOverlay({ 
+                  position: { ...overlay.position, x: Number(e.target.value) }
+                })}
+                className="h-8"
+              />
+            </div>
+            <div className="space-y-1">
+              <Label htmlFor="position-y" className="text-xs">Y Position (%)</Label>
+              <Input
+                id="position-y"
+                type="number"
+                min="0"
+                max="100"
+                value={Math.round(overlay.position.y)}
+                onChange={(e) => updateOverlay({ 
+                  position: { ...overlay.position, y: Number(e.target.value) }
+                })}
+                className="h-8"
+              />
+            </div>
           </div>
         </div>
       </CardContent>
